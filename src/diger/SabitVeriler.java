@@ -1,6 +1,8 @@
 package diger;
 
 public class SabitVeriler {
-	Double dolarTlKur = 3.90D;
-	//...(diğer kurlar eklenecek.)
-}
+	public static final	Double dolarTlKur = 10.0;
+	public static final	Double tlDolarKur = 1.0;
+
+
+	}
