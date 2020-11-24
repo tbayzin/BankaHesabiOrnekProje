@@ -1,7 +1,6 @@
 package service;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,20 +9,18 @@ import java.util.List;
 import entity.Hareket;
 import entity.Hesap;
 
-import javax.print.attribute.HashPrintServiceAttributeSet;
-
 public class DosyaImportService {
 
 
 
+	public List<Hesap> hesaplariOku (String uu){
 
-
-
-	public List<Hesap>  hesaplariOku (String csvFile){
-		List<Hesap> hesaplar = new ArrayList<>();
-
+		String csvFile = "/Users/Electro/desktop/uu.csv";
 		String line = "";
 		String cvsSplitBy = ",";
+
+
+		System.out.println("                 HESAP HAREKETLERINDEN ONCE");
 
 		try (
 				BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
@@ -33,18 +30,23 @@ public class DosyaImportService {
 				// use comma as separator
 				String[] word = line.split(cvsSplitBy);
 
-				System.out.println(" HESAP BILGILERI SAYFASI ONCE  \" " + word[0] + " " + word[1] + word[2] + word[3] + " ");
+				System.out.println(" Hesap no: " + word[0] + " Hesap Adi: " + word[1] +  " Para Birimi:  "  + word[2] + "  Bakiye: " + word[3] +"");
+
+				String hesapno;
+				hesapno = word[0];
+
+				String hesapAdi;
+				hesapAdi = word[1];
+
+				String hesapTipi;
+				hesapTipi = word[2];
+
+				String hesapBakiye;
+				hesapBakiye = word[3];
 
 
-
-				String hesapno = word[0];
-				//hesaplar.add(set.hesapno);
-
-
-				// hesaplariOku(set(1,hesapAdi));
 
 			}
-
 
 		} catch (
 				IOException e) {
@@ -52,40 +54,37 @@ public class DosyaImportService {
 
 		}
 
-
 		return new ArrayList<Hesap>();
 	}
 
-
-
-
 	public List<Hareket> hareketleriOku (String hesaphareket){
 
-		List<Hareket> hareketler = new ArrayList<>();
-
+		String csvFile2 = "/Users/Electro/desktop/hesaphareket.csv";
 		String line = "";
 		String cvsSplitBy = ",";
 
+
 		try (
-				BufferedReader br = new BufferedReader(new FileReader(hesaphareket))) {
+				BufferedReader br = new BufferedReader(new FileReader(csvFile2))) {
 
 			while ((line = br.readLine()) != null) {
 
 				// use comma as separator
-				String[] word = line.split(cvsSplitBy);
+				String[] word2 = line.split(cvsSplitBy);
 
-				System.out.println(" GONDEREN DOSYALAR SAYFASI ONCE  " + word[0] + " " + word[1] + " ");
+				System.out.println(" Gonderen Hesap no: " + word2[0] + " Alici Hesap Adi: " + word2[1] +  " Para Birimi:  "  + word2[2] );
 
+				String gonderenHesap;
+				gonderenHesap = word2[0];
 
+				String aliciHesap;
+				aliciHesap = word2[1];
 
-	//			String hesapno = word[0];
-				//	hesaplar.add(set.hesapno);
+				String tutar;
+				tutar = word2[2];
 
-
-				// hesaplariOku(set(1,hesapAdi));
 
 			}
-
 
 		} catch (
 				IOException e) {
@@ -98,6 +97,12 @@ public class DosyaImportService {
 	}
 
 
+	public static void main(String[] args) {
+		System.out.println("Test");
+
+
+
+
 
 
 
@@ -106,4 +111,6 @@ public class DosyaImportService {
 
 
 
+
+	}
 

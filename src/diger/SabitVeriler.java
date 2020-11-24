@@ -1,8 +1,15 @@
 package diger;
 
 public class SabitVeriler {
-	public static final	Double dolarTlKur = 10.0;
-	public static final	Double tlDolarKur = 1.0;
+
+	double dolarTlKur = 8;
+	double euroTlKur = 9.5;
+
+	double dolarEuroKur = 0.8;
+	double tlEuroKur = 0.2;
+
+	double tlDolarKur = 0.3;
+	double euroDolarKur = 1.3;
 
 
-	}
+}
