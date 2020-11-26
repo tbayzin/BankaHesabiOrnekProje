@@ -14,9 +14,9 @@ public class RaporService {
 			try (PrintWriter writer = new PrintWriter(new File("/home/tarik/Documents/cikti.csv"))) {
 
 
-				DosyaImportService dosyaImportService = new DosyaImportService();
+			//	DosyaImportService dosyaImportService = new DosyaImportService();
 				StringBuilder sb = new StringBuilder();
-				sb.append(dosyaImportService.hesaplariOku(""));
+			//	sb.append(dosyaImportService.hesaplariOku(""));
 				sb.append(',');
 				sb.append("Name");
 				sb.append('\n');

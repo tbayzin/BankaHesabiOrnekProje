@@ -3,20 +3,29 @@ package entity;
 import java.util.List;
 
 public abstract class Hesap {
-	Double bakiye;
+	String bakiye;
 	List<Hareket> gelenGidenHareketler;
 	String hesapAdi;
-	Integer hesapNo;
+	String hesapNo;
 	public abstract void bakiyeHesapla();
 
 
+	public Hesap() {
 
+	}
 
-	public Double getBakiye() {
+	public Hesap(String bakiye, List<Hareket> gelenGidenHareketler, String hesapAdi, String hesapNo) {
+		this.bakiye = bakiye;
+		this.gelenGidenHareketler = gelenGidenHareketler;
+		this.hesapAdi = hesapAdi;
+		this.hesapNo = hesapNo;
+	}
+
+	public String getBakiye() {
 		return bakiye;
 	}
 
-	public void setBakiye(Double bakiye) {
+	public void setBakiye(String bakiye) {
 		this.bakiye = bakiye;
 	}
 
@@ -36,11 +45,11 @@ public abstract class Hesap {
 		this.hesapAdi = hesapAdi;
 	}
 
-	public Integer getHesapNo() {
+	public String getHesapNo() {
 		return hesapNo;
 	}
 
-	public void setHesapNo(Integer hesapNo) {
+	public void setHesapNo(String hesapNo) {
 		this.hesapNo = hesapNo;
 	}
 }

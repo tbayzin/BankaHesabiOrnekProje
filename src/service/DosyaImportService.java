@@ -6,12 +6,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import entity.Hareket;
-import entity.Hesap;
+import entity.*;
 
-public class DosyaImportService {
+public class DosyaImportService extends Hesap {
 
 
+	public DosyaImportService(String bakiye, List<Hareket> gelenGidenHareketler, String hesapAdi, String hesapNo) {
+		super(bakiye, gelenGidenHareketler, hesapAdi, hesapNo);
+	}
+
+	public DosyaImportService() {
+
+	}
 
 	public List<Hesap> hesaplariOku (String uu){
 
@@ -20,7 +26,7 @@ public class DosyaImportService {
 		String cvsSplitBy = ",";
 
 
-		System.out.println("                 HESAP HAREKETLERINDEN ONCE");
+		System.out.println("                 HESAP HAREKETLERINDEN ONCE BILGILER");
 
 		try (
 				BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
@@ -46,6 +52,31 @@ public class DosyaImportService {
 
 
 
+				// Hesaptipine gore hesap obj olustur
+
+				if (hesapTipi.equals("USD")) {
+					Hesap myHesap = new DolarHesabi();
+					myHesap.setHesapNo(hesapno);
+					myHesap.setHesapAdi(hesapAdi);
+					myHesap.setBakiye(hesapBakiye);
+				} else if (hesapTipi.equals("EURO")) {
+					Hesap myHesap = new EuroHesabi();
+					myHesap.setHesapNo(hesapno);
+					myHesap.setHesapAdi(hesapAdi);
+					myHesap.setBakiye(hesapBakiye);
+				}
+				else{
+					Hesap myHesap = new TLHesabi();
+					myHesap.setHesapNo(hesapno);
+					myHesap.setHesapAdi(hesapAdi);
+					myHesap.setBakiye(hesapBakiye);
+
+				}
+
+
+
+
+
 			}
 
 		} catch (
@@ -56,6 +87,11 @@ public class DosyaImportService {
 
 		return new ArrayList<Hesap>();
 	}
+
+
+
+
+
 
 	public List<Hareket> hareketleriOku (String hesaphareket){
 
@@ -74,8 +110,15 @@ public class DosyaImportService {
 
 				System.out.println(" Gonderen Hesap no: " + word2[0] + " Alici Hesap Adi: " + word2[1] +  " Para Birimi:  "  + word2[2] );
 
+
+
+
+				// BURASI YAPILMADI
+				/*
+
 				String gonderenHesap;
-				gonderenHesap = word2[0];
+				gonderenHesap = word2[1];
+
 
 				String aliciHesap;
 				aliciHesap = word2[1];
@@ -83,6 +126,11 @@ public class DosyaImportService {
 				String tutar;
 				tutar = word2[2];
 
+				Hareket  hareketObj = new Hareket();
+
+
+				hareketObj.setGonderenHesap(  );
+				*/
 
 			}
 
@@ -109,8 +157,12 @@ public class DosyaImportService {
 		}
 
 
-
-
+	@Override
+	public void bakiyeHesapla() {
 
 	}
+
+
+
+}
 
