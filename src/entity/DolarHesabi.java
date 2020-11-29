@@ -18,7 +18,7 @@ public class DolarHesabi extends Hesap {
 		this.gelenGidenHareketler = new ArrayList<>();
 	}
 
-	// Her hesap turu icin hesapla
+	// Her hesap turu icin hesaplak
 	@Override
 	public void bakiyeHesapla() {
 
