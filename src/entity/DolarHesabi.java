@@ -7,7 +7,7 @@ import java.util.List;
 
 public class DolarHesabi extends Hesap {
 
-
+//
 //
 	public DolarHesabi(Double bakiye, List<Hareket> gelenGidenHareketler, String hesapAdi, String hesapNo) {
 		super(bakiye, gelenGidenHareketler, hesapAdi, hesapNo);
