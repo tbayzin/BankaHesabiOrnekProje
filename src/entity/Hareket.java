@@ -3,8 +3,10 @@ package entity;
 public class Hareket {
 	Hesap gonderenHesap;
 	Hesap aliciHesap;
-	
-	String tutar;
+
+	Double tutar;
+
+	public Hareket(){};
 
 	public Hesap getGonderenHesap() {
 		return gonderenHesap;
@@ -22,11 +24,23 @@ public class Hareket {
 		this.aliciHesap = aliciHesap;
 	}
 
-	public String getTutar() {
+	public Double getTutar() {
 		return tutar;
 	}
 
-	public void setTutar(String tutar) {
+	public void setTutar(Double tutar) {
 		this.tutar = tutar;
 	}
+
+
+	@Override
+	public String toString() {
+		return "Hareket{" +
+				"gonderenHesap=" + gonderenHesap.getHesapNo() +
+				", aliciHesap=" + aliciHesap.getHesapNo() +
+				", tutar='" + tutar + '\'' +
+				'}';
+	}
 }
+
+

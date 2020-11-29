@@ -3,6 +3,7 @@ package service;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import entity.*;
 public class DosyaImportService extends Hesap {
 
 
-	public DosyaImportService(String bakiye, List<Hareket> gelenGidenHareketler, String hesapAdi, String hesapNo) {
+	public DosyaImportService(Double bakiye, List<Hareket> gelenGidenHareketler, String hesapAdi, String hesapNo) {
 		super(bakiye, gelenGidenHareketler, hesapAdi, hesapNo);
 	}
 
@@ -21,12 +22,13 @@ public class DosyaImportService extends Hesap {
 
 	public List<Hesap> hesaplariOku (String uu){
 
-		String csvFile = "/Users/Electro/desktop/uu.csv";
+		String csvFile = "/home/turkai/Downloads/uu.csv";
 		String line = "";
 		String cvsSplitBy = ",";
 
+		System.out.println("            HESAP HAREKETLERINDEN ONCE BILGILER");
 
-		System.out.println("                 HESAP HAREKETLERINDEN ONCE BILGILER");
+		List<Hesap> hesapList= new ArrayList<>();
 
 		try (
 				BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
@@ -36,7 +38,7 @@ public class DosyaImportService extends Hesap {
 				// use comma as separator
 				String[] word = line.split(cvsSplitBy);
 
-				System.out.println(" Hesap no: " + word[0] + " Hesap Adi: " + word[1] +  " Para Birimi:  "  + word[2] + "  Bakiye: " + word[3] +"");
+				System.out.println(" Hesap no: " + word[0] + " Hesap Adi: " + word[1] +  "  Para Birimi:  "  + word[2] + "  Bakiye: " + word[3] +"");
 
 				String hesapno;
 				hesapno = word[0];
@@ -47,47 +49,40 @@ public class DosyaImportService extends Hesap {
 				String hesapTipi;
 				hesapTipi = word[2];
 
-				String hesapBakiye;
-				hesapBakiye = word[3];
-
-
+				Double hesapBakiye;
+				hesapBakiye = Double.valueOf(word[3]);
 
 				// Hesaptipine gore hesap obj olustur
 
 				if (hesapTipi.equals("USD")) {
-					Hesap myHesap = new DolarHesabi();
+					DolarHesabi myHesap = new DolarHesabi();
 					myHesap.setHesapNo(hesapno);
 					myHesap.setHesapAdi(hesapAdi);
-					myHesap.setBakiye(hesapBakiye);
+					myHesap.setBakiye((hesapBakiye));
+
+					hesapList.add(myHesap);
 				} else if (hesapTipi.equals("EURO")) {
-					Hesap myHesap = new EuroHesabi();
+					EuroHesabi myHesap = new EuroHesabi();
 					myHesap.setHesapNo(hesapno);
 					myHesap.setHesapAdi(hesapAdi);
 					myHesap.setBakiye(hesapBakiye);
+					hesapList.add(myHesap);
 				}
 				else{
-					Hesap myHesap = new TLHesabi();
+					TLHesabi myHesap = new TLHesabi();
 					myHesap.setHesapNo(hesapno);
 					myHesap.setHesapAdi(hesapAdi);
 					myHesap.setBakiye(hesapBakiye);
-
+					hesapList.add(myHesap);
 				}
-
-
-
-
-
 			}
-
 		} catch (
 				IOException e) {
 			e.printStackTrace();
-
 		}
 
-		return new ArrayList<Hesap>();
+		return hesapList;
 	}
-
 
 
 
@@ -95,10 +90,12 @@ public class DosyaImportService extends Hesap {
 
 	public List<Hareket> hareketleriOku (String hesaphareket){
 
-		String csvFile2 = "/Users/Electro/desktop/hesaphareket.csv";
+		String csvFile2 = "/home/turkai/Downloads/hesaphareket.csv";
 		String line = "";
 		String cvsSplitBy = ",";
 
+		List<Hesap> hesapList = hesaplariOku("/home/turkai/Downloads/uu.csv");
+		List<Hareket> hareketList = new ArrayList<>();
 
 		try (
 				BufferedReader br = new BufferedReader(new FileReader(csvFile2))) {
@@ -108,32 +105,39 @@ public class DosyaImportService extends Hesap {
 				// use comma as separator
 				String[] word2 = line.split(cvsSplitBy);
 
-				System.out.println(" Gonderen Hesap no: " + word2[0] + " Alici Hesap Adi: " + word2[1] +  " Para Birimi:  "  + word2[2] );
+		//		System.out.println(" Gonderen Hesap no: " + word2[0] + " Alici Hesap Adi: " + word2[1] +  "  Tutar:  "  + word2[2] );
+
+				String gonderenHesap = word2[0];
+				Hesap gonderen = null;
+				for(Hesap hesap: hesapList) {
+					if (hesap.getHesapNo().equals(gonderenHesap)) {
+						gonderen = hesap;
+					}
+				}
+
+				String aliciHesap = word2[1];
+				Hesap alici = null;
+				for(Hesap hesap: hesapList) {
+					if (hesap.getHesapNo().equals(aliciHesap)) {
+						alici = hesap;
+					}
+				}
 
 
+				Hareket hareket = new Hareket();
+				hareket.setAliciHesap(alici);
+				hareket.setGonderenHesap(gonderen);
+				hareket.setTutar(Double.valueOf(word2[2]));
 
+				//hareket.getAliciHesap().setGelenGidenHareketler(hareket);
+				alici.getGelenGidenHareketler().add(hareket);
+				gonderen.getGelenGidenHareketler().add(hareket);
 
-				// BURASI YAPILMADI
-				/*
+				//bakiye ekleme çıkarma HESAPLASERVISE
+				System.out.println(hareket);
 
-				String gonderenHesap;
-				gonderenHesap = word2[1];
-
-
-				String aliciHesap;
-				aliciHesap = word2[1];
-
-				String tutar;
-				tutar = word2[2];
-
-				Hareket  hareketObj = new Hareket();
-
-
-				hareketObj.setGonderenHesap(  );
-				*/
-
+				hareketList.add(hareket);
 			}
-
 		} catch (
 				IOException e) {
 			e.printStackTrace();
@@ -141,7 +145,12 @@ public class DosyaImportService extends Hesap {
 		}
 
 
-		return new ArrayList<Hareket>();
+		hesapList.forEach(hesap -> {
+			System.out.println(hesap);
+		});
+
+
+		return hareketList;
 	}
 
 
